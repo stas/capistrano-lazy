@@ -18,6 +18,29 @@ Or install it yourself as:
 
 ## Usage
 
+### Bootstrapping YAML configuration files
+
+This task is used together with the remote file task.
+It will bootstrap remote YAML configuration files based on `.yml.example` templates.
+It will parse the file asking for values, save and upload the file remote.
+
+```ruby
+require 'capistrano/lazy/yaml_file_tasks'
+```
+
+Loads the default task to bootstrap the `database.yml`.
+
+To add more files to be managed, add those to the `linked_files` list and create a task based on this:
+
+```ruby
+remote_file 'config/database.yml' => './config/database.yml', :roles => :db
+file './config/database.yml' do |f|
+  yaml_file(f.name)
+end
+```
+
+To recreate the file. Just remove the local and remote files you want to be recreated.
+
 ### Rbenv and Ruby build tasks
 
 I added a couple of tasks to manage rbenv and ruby-build remote setup, update and rubies installation.
